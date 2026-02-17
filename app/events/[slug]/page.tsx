@@ -9,23 +9,6 @@ import {cacheLife} from "next/cache";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
-// Generate static params at build time
-export async function generateStaticParams() {
-  try {
-    const response = await fetch(`${BASE_URL}/api/events`, {
-      next: { revalidate: 3600 }
-    });
-    const { events } = await response.json();
-    
-    return events?.map((event: IEvent) => ({
-      slug: event.slug,
-    })) || [];
-  } catch (error) {
-    console.error('Error generating static params:', error);
-    return [];
-  }
-}
-
 const EventDetailItem = ({icon , alt , label} : {icon : string ; alt : string ; label : string}) => (
     <div className="flex-row-gap-2 items-center">
         <Image src={icon} alt={alt} width={17} height={17}/>
