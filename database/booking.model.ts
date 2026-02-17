@@ -38,13 +38,13 @@ const BookingSchema = new Schema<IBooking>(
 // Add index on eventId for efficient queries
 BookingSchema.index({ eventId: 1 });
 
-// Pre-save hook to validate event existence
+// Pre-save hook to validate events existence
 BookingSchema.pre('save', async function (next) {
   const booking = this as IBooking;
 
   // Only validate eventId if it's new or modified
   if (booking.isModified('eventId')) {
-    // Verify that the referenced event exists
+    // Verify that the referenced events exists
     const eventExists = await Event.findById(booking.eventId);
     
     if (!eventExists) {

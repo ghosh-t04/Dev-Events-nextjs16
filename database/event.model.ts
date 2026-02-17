@@ -105,7 +105,7 @@ const EventSchema = new Schema<IEvent>(
 EventSchema.index({ slug: 1 });
 
 // Pre-save hook for slug generation and date/time normalization
-EventSchema.pre('save', async function (next) {
+EventSchema.pre('save', async function () {
   const event = this as IEvent;
 
   // Generate slug only if title is new or modified
@@ -149,8 +149,6 @@ EventSchema.pre('save', async function (next) {
       }
     }
   }
-
-  next();
 });
 
 // Use existing model if it exists (prevents recompilation errors in development)
