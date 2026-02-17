@@ -6,6 +6,10 @@ import {getSimilarEventsBySlug} from "@/lib/actions/event.actions";
 import EventCard from "@/components/EventCard";
 import {IEvent} from "@/database";
 import {cacheLife} from "next/cache";
+
+// Force dynamic rendering to prevent build-time errors
+export const dynamic = 'force-dynamic';
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
 const EventDetailItem = ({icon , alt , label} : {icon : string ; alt : string ; label : string}) => (
@@ -35,8 +39,6 @@ const EventTags = ({tags} : {tags : string[]}) => (
 )
 
 const EventDetailsPage = async ({ params } : { params : Promise<{ slug: string}>}) => {
-    'use cache'
-    cacheLife('hours')
     const { slug } = await params;
     
     // Fetch event data from API
